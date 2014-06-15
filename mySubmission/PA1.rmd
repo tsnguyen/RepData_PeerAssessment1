@@ -3,12 +3,12 @@ Reproducible research - Peer assessments 1
 ## Loading and preprocessing the data
 First, read the data in
 ```{r input}
-data <- read.csv("activity.csv", colClasses = c("numeric", "factor", "numeric"))
-nrow(data)
+dataraw <- read.csv("activity.csv", colClasses = c("numeric", "factor", "numeric"))
+nrow(dataraw)
 ```
 and then clean it up
 ```{r cleanup}
-data <- data[complete.cases(data),]
+data <- dataraw[complete.cases(dataraw),]
 nrow(data)
 ```
 ## What is mean total number of steps taken per day?
@@ -30,7 +30,23 @@ median(aggregatedata$x)
 ```
 
 ## What is the average daily activity pattern?
+We will need to agregate the data by minute 
+```{r MinAgg}
+MinAggData <- aggregate(data$steps, by = list(data$interval), FUN = sum)
+```
 
+Then the time series of the average number of steps is
+```{r steps}
+plot(MinAggData$Group.1, MinAggData$x, xlab = "minute interval", ylab = "average number of steps", type = 'l')
+```
+The row index of the 5 minute interval that has maximum number of steps is
+```{r maxstep}
+which.max(MinAggData$x)
+```
 ## Imputing missing values
+The total number of missing data
+```{r missing data}
+nrow(dataraw) - nrow(data)
+```
 
 ## Are there differences in activity patterns between weekdays and weekends?

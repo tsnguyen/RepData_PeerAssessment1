@@ -1,0 +1,6 @@
+Reproducible research - Peer assessments 1
+=====================================================
+First, read the data in
+```{r input}
+data <- read.csv("activity.csv", colClasses = c("numeric", "factor", "numeric"))
+```
